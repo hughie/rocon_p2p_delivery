@@ -1,0 +1,21 @@
+<launch>
+  <arg name="services"              default="p2p_delivery/delivery.services"/>
+  <arg name="default_auto_enable_services"  default="$(env CONCERT_AUTO_ENABLE_SERVICES)"/>
+  <arg name="rosbridge_address"     default="$(env CONCERT_ROSBRIDGE_ADDRESS)"/>
+  <arg name="webserver_address"     default="$(env CONCERT_WEBSERVER_ADDRESS)"/>
+  <arg name="concert_name"          default="$(env CONCERT_NAME)"/> 
+    
+  <include file="$(find concert_master)/launch/concert_master.launch">
+      <arg name="concert_name" value="$(arg concert_name)"/>
+      <arg name="services" value="$(arg services)"/>
+      <arg name="default_auto_enable_services" value="$(arg default_auto_enable_services)"/>
+      <arg name="conductor_auto_invite" value="true"/>
+      <arg name="enable_rosbridge"  value="true"/>
+      <arg name="rosbridge_address" value="$(arg rosbridge_address)"/>
+      <arg name="webserver_address" value="$(arg webserver_address)"/>
+      <arg name="gateway_unavailable_timeout" value="60"/>
+  </include>
+  <group ns="concert">
+    <node pkg="rocon_tf_reconstructor" name="rocon_tf_reconstructor" type="rocon_tf_reconstructor"/>
+  </group>
+</launch>
